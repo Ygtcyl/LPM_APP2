@@ -21,6 +21,7 @@ public class PlaceController {
 
     @GetMapping("/all")
     public ResponseEntity<List<PlaceDTO>> getAllPlaces() {
+        logger.info("Get all student");
         return new ResponseEntity<>(placeService.getAllPlaces(), HttpStatus.OK);
     }
     @GetMapping(value = "/get/{id}", produces = "application/json")
@@ -31,17 +32,20 @@ public class PlaceController {
     }
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public ResponseEntity<PlaceDTO> addPlace(@RequestBody Place place) {
+        logger.info("Creating place {}", place.getId());
         return new ResponseEntity<>(placeService.createPlace(place), HttpStatus.CREATED);
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<PlaceDTO> updatePlace(@PathVariable Long id, @RequestBody Place place) {
         if (id == null || id == 0 || place == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        logger.info("Updating place {}", id);
         return new ResponseEntity<>(placeService.updatePlace(id, place), HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Place> deletePlace(@PathVariable Long id) {
         if (id == null || id == 0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         placeService.deletePlace(id);
+        logger.info("Deleting place {}", id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
